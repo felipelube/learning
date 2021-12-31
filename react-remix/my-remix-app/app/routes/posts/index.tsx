@@ -13,7 +13,7 @@ export default function Posts() {
   return (
     <div>
       <h1>Posts</h1>
-      {Array.isArray(posts) && <ul>{posts.map(post => <li key={post.slug}><Link to={post.slug}>{post.title}</Link></li>)}</ul>}
+      {Array.isArray(posts) && <ul>{posts.map(post => <li key={post.slug}><Link to={post.slug}>{post.title}</Link> </li>)}</ul>}
     </div>
   )
 }

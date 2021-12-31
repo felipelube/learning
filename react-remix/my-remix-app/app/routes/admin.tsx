@@ -24,6 +24,10 @@ export default function Admin() {
               <Link to={`/posts/${post.slug}`}>
                 {post.title}
               </Link>
+              {' '}
+              <Link to={`/admin/edit/${post.slug}`}>
+                [Edit]
+              </Link>
             </li>
           ))}
         </ul>

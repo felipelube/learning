@@ -13,6 +13,10 @@ export interface NewPost extends Post {
   markdown: string
 }
 
+export interface EditPost extends NewPost {
+  oldSlug: string
+}
+
 export interface PostMarkdownAttributes {
   title: string
 }
@@ -41,7 +45,7 @@ export async function getPosts() {
   )
 }
 
-export async function getPost(slug: string) {
+export async function getPost(slug: string, withOriginalMarkup: boolean = false) {
   const filepath = path.join(postsPath, slug + ".md");
   const file = await fs.readFile(filepath);
   const { attributes, body } = parseFrontMatter(file.toString());
@@ -49,8 +53,12 @@ export async function getPost(slug: string) {
     isValidPostAttributes(attributes),
     `Post ${filepath} is missing attributes`
   );
-  const html = marked(body)
-  return { slug, html, title: attributes.title };
+  if (withOriginalMarkup) {
+    return { slug, markdown: body, title: attributes.title };
+  } else {
+    const html = marked(body)
+    return { slug, html, title: attributes.title };
+  }
 }
 
 export async function createPost(post: NewPost) {
@@ -63,3 +71,16 @@ export async function createPost(post: NewPost) {
 
   return getPost(post.slug)
 }
+
+export async function editPost(post: EditPost) {
+  const { slug, title, markdown, oldSlug } = post
+
+  if (slug !== oldSlug) {
+    await fs.unlink(
+      path.join(postsPath, oldSlug + ".md"),
+    )
+  }
+
+  return createPost({ slug, title, markdown })
+}
+
