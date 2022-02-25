@@ -1,3 +1,4 @@
+import math
 from typing import List
 
 
@@ -89,3 +90,23 @@ def size(node: Node) -> int:
 
 assert(size(tree_1) == 5)
 assert(size(tree_2) == 3)
+
+
+tree_3 = Node(10)
+tree_3.left = Node(50)
+tree_3.left.left = Node(40)
+tree_3.left.right = Node(25)
+tree_3.right = Node(30)
+tree_3.right.left = Node(80)
+
+
+def get_maximum(node: Node) -> int:
+    if node is None:
+        return -math.inf
+
+    return max(node.k, get_maximum(node.left), get_maximum(node.right))
+
+
+assert(get_maximum(tree_1) == 50)
+assert(get_maximum(tree_2) == 30)
+assert(get_maximum(tree_3) == 80)
