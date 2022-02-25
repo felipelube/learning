@@ -1,3 +1,6 @@
+from typing import List
+
+
 class Node:
     def __init__(self, k: int):
         self.k = k
@@ -12,7 +15,7 @@ root.right.left = Node(40)
 root.right.right = Node(50)
 
 
-def inorder(node: Node, lyst=[]):
+def inorder(node: Node, lyst: List[int] = []) -> List[int]:
     if node is None:
         return
 
@@ -26,7 +29,7 @@ def inorder(node: Node, lyst=[]):
 assert(inorder(root) == [20, 10, 40, 30, 50])
 
 
-def preorder(node: Node, lyst=[]):
+def preorder(node: Node, lyst: List[int] = []) -> List[int]:
     if node is None:
         return
 
@@ -41,7 +44,7 @@ assert(preorder(root) == [10, 20, 30, 40, 50])
 
 
 # note: post order is NOT tail recursive, so it is less optimized for python
-def postorder(node: Node, lyst=[]):
+def postorder(node: Node, lyst=[]) -> List[int]:
     if node is None:
         return
 
