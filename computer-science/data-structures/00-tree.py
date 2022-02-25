@@ -82,16 +82,10 @@ tree_2.right = Node(20)
 tree_2.right.right = Node(30)
 
 
-def size(root: Node) -> int:
-
-    def recursive(node: Node) -> int:
-        if node is None:
-            return 0
-        if is_leaf_node(node):
-            return 1
-        return 1 + recursive(node.left) + recursive(node.right)
-
-    return recursive(root)
+def size(node: Node) -> int:
+    if node is None:
+        return 0
+    return 1 + size(node.left) + size(node.right)
 
 
 assert(size(tree_1) == 5)
