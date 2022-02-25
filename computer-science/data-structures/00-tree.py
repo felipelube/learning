@@ -110,3 +110,18 @@ def get_maximum(node: Node) -> int:
 assert(get_maximum(tree_1) == 50)
 assert(get_maximum(tree_2) == 30)
 assert(get_maximum(tree_3) == 80)
+
+
+def key_in(node: Node, key: int) -> bool:
+    if node is None:
+        return False
+
+    return node.k == key or key_in(node.left, key) or key_in(node.right, key)
+
+
+assert(key_in(tree_1, 50) == True)
+assert(key_in(tree_1, 5) == False)
+assert(key_in(tree_2, 30) == True)
+assert(key_in(tree_2, 40) == False)
+assert(key_in(tree_3, 80) == True)
+assert(key_in(tree_3, 20) == False)
