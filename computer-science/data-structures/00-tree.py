@@ -125,3 +125,51 @@ assert(key_in(tree_2, 30) == True)
 assert(key_in(tree_2, 40) == False)
 assert(key_in(tree_3, 80) == True)
 assert(key_in(tree_3, 20) == False)
+
+tree_4 = Node(10)
+tree_4.left = Node(8)
+tree_4.right = Node(30)
+tree_4.right.left = Node(40)
+tree_4.right.right = Node(50)
+tree_4.right.right.right = Node(70)
+
+
+tree_5 = Node(30)
+tree_5.left = Node(40)
+tree_5.left.left = Node(70)
+tree_5.left.left.right = Node(80)
+tree_5.right = Node(20)
+
+tree_6 = Node(10)
+tree_6.left = Node(20)
+tree_6.left.left = Node(30)
+
+
+def height(node: Node) -> int:
+    """" Calculates the height of a tree considering the number of nodes in the
+    longest path """
+    if node is None:
+        return 0
+
+    return 1 + max(height(node.left), height(node.right))
+
+
+assert(height(tree_4) == 4)
+assert(height(Node(10)) == 1)
+assert(height(tree_5) == 4)
+assert(height(tree_6) == 3)
+assert(height(None) == 0)
+
+
+def height_alt(root: Node) -> int:
+    """" Calculates the height of a tree considering the number of edges in the
+    longest path """
+
+    return height(root) - 1
+
+
+assert(height_alt(None) == -1)
+assert(height_alt(Node(10)) == 0)
+assert(height_alt(tree_4) == 3)
+assert(height_alt(tree_5) == 3)
+assert(height_alt(tree_6) == 2)
