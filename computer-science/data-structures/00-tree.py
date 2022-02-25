@@ -71,3 +71,28 @@ def postorder(root: Node) -> List[int]:
 
 
 assert(postorder(tree_1) == [20, 40, 50, 30, 10])
+
+
+def is_leaf_node(node: Node) -> bool:
+    return node.left is None and node.right is None
+
+
+tree_2 = Node(10)
+tree_2.right = Node(20)
+tree_2.right.right = Node(30)
+
+
+def size(root: Node) -> int:
+
+    def recursive(node: Node) -> int:
+        if node is None:
+            return 0
+        if is_leaf_node(node):
+            return 1
+        return 1 + recursive(node.left) + recursive(node.right)
+
+    return recursive(root)
+
+
+assert(size(tree_1) == 5)
+assert(size(tree_2) == 3)
