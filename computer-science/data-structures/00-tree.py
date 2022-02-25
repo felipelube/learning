@@ -161,11 +161,14 @@ assert(height(tree_6) == 3)
 assert(height(None) == 0)
 
 
-def height_alt(root: Node) -> int:
+def height_alt(node: Node) -> int:
     """" Calculates the height of a tree considering the number of edges in the
     longest path """
 
-    return height(root) - 1
+    if node is None:
+        return -1
+
+    return max(height_alt(node.left), height_alt(node.right)) + 1
 
 
 assert(height_alt(None) == -1)
