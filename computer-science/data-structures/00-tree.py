@@ -24,3 +24,17 @@ def inorder(node: Node, lyst=[]):
 
 
 assert(inorder(root) == [20, 10, 40, 30, 50])
+
+
+def preorder(node: Node, lyst=[]):
+    if node is None:
+        return
+
+    lyst.append(node.k)
+    preorder(node.left)
+    preorder(node.right)
+
+    return lyst
+
+
+assert(preorder(root) == [10, 20, 30, 40, 50])
