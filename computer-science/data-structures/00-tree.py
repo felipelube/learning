@@ -182,10 +182,10 @@ assert(height_alt(tree_6) == 2)
 
 tree_7 = Node(10)
 tree_7.left = Node(20)
+tree_7.left.left = Node(40)
+tree_7.left.right = Node(50)
 tree_7.right = Node(30)
-tree_7.right.left = Node(40)
-tree_7.right.right = Node(50)
-tree_7.right.right.right = Node(60)
+tree_7.right.right = Node(60)
 
 
 def inorder_it(node: Node) -> List[int]:
@@ -209,3 +209,22 @@ def inorder_it(node: Node) -> List[int]:
 
 
 assert(inorder_it(tree_1) == [20, 10, 40, 30, 50])
+
+
+def preorder_it(node: Node) -> List[int]:
+    lyst = []
+
+    if node is not None:
+        visited_nodes = [node]
+        while len(visited_nodes):
+            current_node = visited_nodes.pop()
+            lyst.append(current_node.k)
+            if current_node.right:
+                visited_nodes.append(current_node.right)
+            if current_node.left:
+                visited_nodes.append(current_node.left)
+
+    return lyst
+
+
+assert(preorder_it(tree_7) == [10, 20, 40, 50, 30, 60])
