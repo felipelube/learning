@@ -8,6 +8,9 @@ class Node:
         self.left: Node = None
         self.right: Node = None
 
+    def __repr__(self):
+        return "{}".format(self.k)
+
 
 tree_1 = Node(10)
 tree_1.left = Node(20)
@@ -176,3 +179,33 @@ assert(height_alt(Node(10)) == 0)
 assert(height_alt(tree_4) == 3)
 assert(height_alt(tree_5) == 3)
 assert(height_alt(tree_6) == 2)
+
+tree_7 = Node(10)
+tree_7.left = Node(20)
+tree_7.right = Node(30)
+tree_7.right.left = Node(40)
+tree_7.right.right = Node(50)
+tree_7.right.right.right = Node(60)
+
+
+def inorder_it(node: Node) -> List[int]:
+    lyst = []
+
+    visited_nodes = []
+    current_node = node
+    while current_node is not None:
+        visited_nodes.append(current_node)
+        current_node = current_node.left
+
+    while len(visited_nodes) > 0:
+        current_node = visited_nodes.pop()
+        lyst.append(current_node.k)
+        current_node = current_node.right
+        while current_node is not None:
+            visited_nodes.append(current_node)
+            current_node = current_node.left
+
+    return lyst
+
+
+assert(inorder_it(tree_1) == [20, 10, 40, 30, 50])
