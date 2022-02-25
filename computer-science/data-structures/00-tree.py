@@ -53,7 +53,6 @@ def preorder(root: Node) -> List[int]:
 assert(preorder(tree_1) == [10, 20, 30, 40, 50])
 
 
-# note: post order is NOT tail recursive, so it is less optimized for python
 def postorder(root: Node) -> List[int]:
     lyst = []
 
