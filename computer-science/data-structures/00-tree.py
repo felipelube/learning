@@ -38,3 +38,18 @@ def preorder(node: Node, lyst=[]):
 
 
 assert(preorder(root) == [10, 20, 30, 40, 50])
+
+
+# note: post order is NOT tail recursive, so it is less optimized for python
+def postorder(node: Node, lyst=[]):
+    if node is None:
+        return
+
+    postorder(node.left)
+    postorder(node.right)
+    lyst.append(node.k)
+
+    return lyst
+
+
+assert(postorder(root) == [20, 40, 50, 30, 10])
