@@ -1,5 +1,6 @@
 import math
 from typing import List
+from collections import deque
 
 
 class Node:
@@ -228,3 +229,49 @@ def preorder_it(node: Node) -> List[int]:
 
 
 assert(preorder_it(tree_7) == [10, 20, 40, 50, 30, 60])
+
+
+def level_order_it(node: Node) -> List[int]:
+    lyst = []
+    if node is not None:
+        visited_nodes = [node]
+
+        while len(visited_nodes):
+            current_node = visited_nodes.pop(0)
+            lyst.append(current_node.k)
+            if current_node.left:
+                visited_nodes.append(current_node.left)
+            if current_node.right:
+                visited_nodes.append(current_node.right)
+
+    return lyst
+
+
+assert(level_order_it(tree_7) == [10, 20, 30, 40, 50, 60])
+assert(level_order_it(Node(10)) == [10])
+assert(level_order_it(None) == [])
+
+
+def level_order_it_deque(node: Node) -> List[int]:
+    """
+    Return the items of a tree in leve-order. Considerably faster than the list
+    implementation since the Deque collection is optimized for the popleft
+    operation O(1) vs O(n).
+    """
+    lyst = []
+    if node is not None:
+        visited_nodes = deque()
+        visited_nodes.append(node)
+        while len(visited_nodes) > 0:
+            current_node = visited_nodes.popleft()
+            lyst.append(current_node.k)
+            if current_node.left is not None:
+                visited_nodes.append(current_node.left)
+            if current_node.right is not None:
+                visited_nodes.append(current_node.right)
+    return lyst
+
+
+assert(level_order_it_deque(tree_7) == [10, 20, 30, 40, 50, 60])
+assert(level_order_it_deque(Node(10)) == [10])
+assert(level_order_it_deque(None) == [])
