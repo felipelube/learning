@@ -8,11 +8,11 @@ class Node:
         self.right: Node = None
 
 
-root = Node(10)
-root.left = Node(20)
-root.right = Node(30)
-root.right.left = Node(40)
-root.right.right = Node(50)
+tree_1 = Node(10)
+tree_1.left = Node(20)
+tree_1.right = Node(30)
+tree_1.right.left = Node(40)
+tree_1.right.right = Node(50)
 
 
 def inorder(root: Node) -> List[int]:
@@ -31,7 +31,7 @@ def inorder(root: Node) -> List[int]:
     return lyst
 
 
-assert(inorder(root) == [20, 10, 40, 30, 50])
+assert(inorder(tree_1) == [20, 10, 40, 30, 50])
 
 
 def preorder(root: Node) -> List[int]:
@@ -50,7 +50,7 @@ def preorder(root: Node) -> List[int]:
     return lyst
 
 
-assert(preorder(root) == [10, 20, 30, 40, 50])
+assert(preorder(tree_1) == [10, 20, 30, 40, 50])
 
 
 # note: post order is NOT tail recursive, so it is less optimized for python
@@ -70,4 +70,4 @@ def postorder(root: Node) -> List[int]:
     return lyst
 
 
-assert(postorder(root) == [20, 40, 50, 30, 10])
+assert(postorder(tree_1) == [20, 40, 50, 30, 10])
