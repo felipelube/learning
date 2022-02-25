@@ -1,13 +1,13 @@
 import math
-from typing import List
+from typing import Deque, List, Optional
 from collections import deque
 
 
 class Node:
     def __init__(self, k: int):
         self.k = k
-        self.left: Node = None
-        self.right: Node = None
+        self.left: Optional[Node] = None
+        self.right: Optional[Node] = None
 
     def __repr__(self):
         return "{}".format(self.k)
@@ -21,9 +21,9 @@ tree_1.right.right = Node(50)
 
 
 def inorder(root: Node) -> List[int]:
-    lyst = []
+    lyst: List[int] = []
 
-    def recursive(node: Node):
+    def recursive(node: Optional[Node]):
         if node is None:
             return
 
@@ -40,9 +40,9 @@ assert(inorder(tree_1) == [20, 10, 40, 30, 50])
 
 
 def preorder(root: Node) -> List[int]:
-    lyst = []
+    lyst: List[int] = []
 
-    def recursive(node: Node):
+    def recursive(node: Optional[Node]):
         if node is None:
             return
 
@@ -59,9 +59,9 @@ assert(preorder(tree_1) == [10, 20, 30, 40, 50])
 
 
 def postorder(root: Node) -> List[int]:
-    lyst = []
+    lyst: List[int] = []
 
-    def recursive(node: Node):
+    def recursive(node: Optional[Node]):
         if node is None:
             return
 
@@ -86,7 +86,7 @@ tree_2.right = Node(20)
 tree_2.right.right = Node(30)
 
 
-def size(node: Node) -> int:
+def size(node: Optional[Node]) -> int:
     if node is None:
         return 0
     return 1 + size(node.left) + size(node.right)
@@ -104,7 +104,7 @@ tree_3.right = Node(30)
 tree_3.right.left = Node(80)
 
 
-def get_maximum(node: Node) -> int:
+def get_maximum(node: Optional[Node]) -> float:
     if node is None:
         return -math.inf
 
@@ -116,7 +116,7 @@ assert(get_maximum(tree_2) == 30)
 assert(get_maximum(tree_3) == 80)
 
 
-def key_in(node: Node, key: int) -> bool:
+def key_in(node: Optional[Node], key: int) -> bool:
     if node is None:
         return False
 
@@ -149,7 +149,7 @@ tree_6.left = Node(20)
 tree_6.left.left = Node(30)
 
 
-def height(node: Node) -> int:
+def height(node: Optional[Node]) -> int:
     """" Calculates the height of a tree considering the number of nodes in the
     longest path """
     if node is None:
@@ -165,7 +165,7 @@ assert(height(tree_6) == 3)
 assert(height(None) == 0)
 
 
-def height_alt(node: Node) -> int:
+def height_alt(node: Optional[Node]) -> int:
     """" Calculates the height of a tree considering the number of edges in the
     longest path """
 
@@ -189,10 +189,10 @@ tree_7.right = Node(30)
 tree_7.right.right = Node(60)
 
 
-def inorder_it(node: Node) -> List[int]:
-    lyst = []
+def inorder_it(node: Optional[Node]) -> List[int]:
+    lyst: List[int] = []
 
-    visited_nodes = []
+    visited_nodes: List[Node] = []
     current_node = node
     while current_node is not None:
         visited_nodes.append(current_node)
@@ -212,8 +212,8 @@ def inorder_it(node: Node) -> List[int]:
 assert(inorder_it(tree_1) == [20, 10, 40, 30, 50])
 
 
-def preorder_it(node: Node) -> List[int]:
-    lyst = []
+def preorder_it(node: Optional[Node]) -> List[int]:
+    lyst: List[int] = []
 
     if node is not None:
         visited_nodes = [node]
@@ -231,8 +231,8 @@ def preorder_it(node: Node) -> List[int]:
 assert(preorder_it(tree_7) == [10, 20, 40, 50, 30, 60])
 
 
-def level_order_it(node: Node) -> List[int]:
-    lyst = []
+def level_order_it(node: Optional[Node]) -> List[int]:
+    lyst: List[int] = []
     if node is not None:
         visited_nodes = [node]
 
@@ -252,15 +252,15 @@ assert(level_order_it(Node(10)) == [10])
 assert(level_order_it(None) == [])
 
 
-def level_order_it_deque(node: Node) -> List[int]:
+def level_order_it_deque(node: Optional[Node]) -> List[int]:
     """
     Return the items of a tree in leve-order. Considerably faster than the list
     implementation since the Deque collection is optimized for the popleft
     operation O(1) vs O(n).
     """
-    lyst = []
+    lyst: List[int] = []
     if node is not None:
-        visited_nodes = deque()
+        visited_nodes: Deque[Node] = deque()
         visited_nodes.append(node)
         while len(visited_nodes) > 0:
             current_node = visited_nodes.popleft()
