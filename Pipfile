@@ -8,6 +8,7 @@ name = "pypi"
 [dev-packages]
 pytest = "*"
 pytest-watch = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.9"
