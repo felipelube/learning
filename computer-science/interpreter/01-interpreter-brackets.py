@@ -135,3 +135,14 @@ def test_interpreter_no_pairs():
 def test_interpreter_concentric_pairs():
     interpreter = Interpreter("{[()]}")
     assert(interpreter.expr() == 'YES')
+
+
+def test_nested_pairs_no_pattern():
+    inputs = {
+        '{(([])[])[]}': 'YES',
+        '{(([])[])[]]}': 'NO',
+        '{(([])[])[]}[]': 'YES'
+    }
+    for string, expected_output in inputs.items():
+        interpreter = Interpreter(string)
+        assert(interpreter.expr() == expected_output)
