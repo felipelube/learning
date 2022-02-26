@@ -3,6 +3,9 @@
 # Token types
 # EOF (end-of-file) token is used to indicate that
 # there is no more input left for lexical analysis
+from typing import Optional
+
+
 INTEGER, PLUS, TIMES, DIVISION, MINUS,  EOF = 'INTEGER', 'PLUS', 'TIMES', 'DIVISION', 'MINUS', 'EOF'
 
 
@@ -107,18 +110,23 @@ class Interpreter(object):
         else:
             self.error()
 
-    def expr(self):
+    def expr(self, last_result: Optional[int] = None):
         """Parser / Interpreter
 
-        expr -> INTEGER PLUS INTEGER
-        expr -> INTEGER MINUS INTEGER
+        expr -> INTEGER PLUS INTEGER ...
+        expr -> INTEGER MINUS INTEGER ...
+        expr -> INTEGER TIMES INTEGER ...
+        expr -> INTEGER DIVISION INTEGER ...
         """
-        # set current token to the first token taken from the input
-        self.current_token = self.get_next_token()
+        if last_result is not None:
+            left = Token(INTEGER, last_result)
+        else:
+            # set current token to the first token taken from the input
+            self.current_token = self.get_next_token()
 
-        # we expect the current token to be an integer
-        left = self.current_token
-        self.eat(INTEGER)
+            # we expect the current token to be an integer
+            left = self.current_token
+            self.eat(INTEGER)
 
         # we expect the current token to be either a '+' or '-'
         op = self.current_token
@@ -150,6 +158,11 @@ class Interpreter(object):
             result = left.value * right.value
         else:
             result = left.value / right.value
+
+        if (self.current_token is not None and
+                self.current_token.type is not EOF):
+            return self.expr(result)
+
         return result
 
 
