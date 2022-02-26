@@ -1,7 +1,11 @@
-from typing import Optional
+from typing import List, Optional
 
 
 EOF, L_PAREN, R_PAREN, L_SQUARE, R_SQUARE, L_CURLY, R_CURLY = 'EOF', 'L_PAREN', 'R_PAREN', 'L_SQUARE', 'R_SQUARE', 'L_CURLY', 'R_CURLY'
+
+OPEN_TOKENS = [L_PAREN, L_SQUARE, L_CURLY]
+CLOSE_TOKENS = [R_PAREN, R_SQUARE, R_CURLY]
+
 TOKEN_KIND_FOR_SYMBOL = {
     '(': L_PAREN,
     ')': R_PAREN,
@@ -9,6 +13,15 @@ TOKEN_KIND_FOR_SYMBOL = {
     ']': R_SQUARE,
     '{': L_CURLY,
     '}': R_CURLY
+}
+
+REVERSE_FOR_TOKEN = {
+    L_PAREN: R_PAREN,
+    R_PAREN: L_PAREN,
+    L_SQUARE: R_SQUARE,
+    R_SQUARE: L_SQUARE,
+    L_CURLY: R_CURLY,
+    R_CURLY: L_CURLY
 }
 
 
@@ -53,6 +66,25 @@ class Interpreter:
         except KeyError:
             raise Exception("Invalid token")
 
+    def eat(self, expected_tokens_kinds: List[str]):
+        if self.current_token is None:
+            return
+
+        if self.current_token.kind in expected_tokens_kinds:
+            self.current_token = self.get_next_token()
+        else:
+            raise Exception("Unexpected token")
+
+    def expr(self):
+        self.current_token = self.get_next_token()
+
+        left = self.current_token
+        self.eat(OPEN_TOKENS)
+
+        self.eat([REVERSE_FOR_TOKEN[left.kind]])
+
+        return 'YES'
+
 
 interpreter = Interpreter("()[]{}")
 
@@ -73,3 +105,7 @@ assert(interpreter.get_next_token().kind == R_CURLY)
 
 assert(interpreter.current_char is None)
 assert(interpreter.get_next_token().kind == EOF)
+
+
+interpreter = Interpreter("()[]{}")
+assert(interpreter.expr() == 'YES')
