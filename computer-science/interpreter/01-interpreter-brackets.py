@@ -1,7 +1,15 @@
 from typing import Optional
 
 
-EOF, L_PAREN, R_PAREN = 'EOF', 'L_PAREN', 'R_PAREN'
+EOF, L_PAREN, R_PAREN, L_SQUARE, R_SQUARE, L_CURLY, R_CURLY = 'EOF', 'L_PAREN', 'R_PAREN', 'L_SQUARE', 'R_SQUARE', 'L_CURLY', 'R_CURLY'
+TOKEN_KIND_FOR_SYMBOL = {
+    '(': L_PAREN,
+    ')': R_PAREN,
+    '[': L_SQUARE,
+    ']': R_SQUARE,
+    '{': L_CURLY,
+    '}': R_CURLY
+}
 
 
 class Token:
@@ -36,31 +44,32 @@ class Interpreter:
         if self.pos > len(self.text) - 1:
             return Token(EOF)
 
-        if self.current_char == '(':
+        try:
+            if self.current_char is None:
+                raise
+            kind = TOKEN_KIND_FOR_SYMBOL.get(self.current_char)
             self.advance()
-            return Token(L_PAREN)
-
-        if self.current_char == ')':
-            self.advance()
-            return Token(R_PAREN)
-
-        raise Exception("Invalid token")
+            return Token(kind)
+        except KeyError:
+            raise Exception("Invalid token")
 
 
-interpreter = Interpreter("()()()")
+interpreter = Interpreter("()[]{}")
 
 assert(interpreter.current_char == '(')
 assert(interpreter.get_next_token().kind == L_PAREN)
 assert(interpreter.current_char == ')')
 assert(interpreter.get_next_token().kind == R_PAREN)
-assert(interpreter.current_char == '(')
-assert(interpreter.get_next_token().kind == L_PAREN)
-assert(interpreter.current_char == ')')
-assert(interpreter.get_next_token().kind == R_PAREN)
-assert(interpreter.current_char == '(')
-assert(interpreter.get_next_token().kind == L_PAREN)
-assert(interpreter.current_char == ')')
-assert(interpreter.get_next_token().kind == R_PAREN)
+
+assert(interpreter.current_char == '[')
+assert(interpreter.get_next_token().kind == L_SQUARE)
+assert(interpreter.current_char == ']')
+assert(interpreter.get_next_token().kind == R_SQUARE)
+
+assert(interpreter.current_char == '{')
+assert(interpreter.get_next_token().kind == L_CURLY)
+assert(interpreter.current_char == '}')
+assert(interpreter.get_next_token().kind == R_CURLY)
 
 assert(interpreter.current_char is None)
 assert(interpreter.get_next_token().kind == EOF)
