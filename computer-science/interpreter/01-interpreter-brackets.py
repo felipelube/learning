@@ -75,14 +75,25 @@ class Interpreter:
         else:
             raise ValueError("Unexpected token")
 
-    def expr(self):
-        self.current_token = self.get_next_token()
-
+    def expr(self, provided_left=None):
         try:
-            left = self.current_token
+            if provided_left is not None:
+                left = provided_left
+            else:
+                self.current_token = self.get_next_token()
+                left = self.current_token
+
             self.eat(OPEN_TOKENS)
 
-            self.eat([REVERSE_FOR_TOKEN[left.kind]])
+            right = self.current_token
+            try:
+                self.eat([REVERSE_FOR_TOKEN[left.kind]])
+            except ValueError:
+                if right.kind in OPEN_TOKENS:
+                    self.expr(provided_left=right)
+                    self.eat([REVERSE_FOR_TOKEN[left.kind]])
+                else:
+                    raise ValueError
 
             return 'YES'
         except ValueError:
@@ -115,3 +126,7 @@ assert(interpreter.expr() == 'YES')
 
 interpreter = Interpreter("(([({{")
 assert(interpreter.expr() == 'NO')
+
+
+interpreter = Interpreter("{[()]}")
+assert(interpreter.expr() == 'YES')
