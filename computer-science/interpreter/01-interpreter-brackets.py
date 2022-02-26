@@ -78,12 +78,15 @@ class Interpreter:
     def expr(self):
         self.current_token = self.get_next_token()
 
-        left = self.current_token
-        self.eat(OPEN_TOKENS)
+        try:
+            left = self.current_token
+            self.eat(OPEN_TOKENS)
 
-        self.eat([REVERSE_FOR_TOKEN[left.kind]])
+            self.eat([REVERSE_FOR_TOKEN[left.kind]])
 
-        return 'YES'
+            return 'YES'
+        except ValueError:
+            return 'NO'
 
 
 interpreter = Interpreter("()[]{}")
@@ -109,3 +112,6 @@ assert(interpreter.get_next_token().kind == EOF)
 
 interpreter = Interpreter("()[]{}")
 assert(interpreter.expr() == 'YES')
+
+interpreter = Interpreter("(([({{")
+assert(interpreter.expr() == 'NO')
