@@ -64,7 +64,7 @@ class Interpreter:
             self.advance()
             return Token(kind)
         except KeyError:
-            raise Exception("Invalid token")
+            raise ValueError("Invalid token")
 
     def eat(self, expected_tokens_kinds: List[str]):
         if self.current_token is None:
@@ -73,7 +73,7 @@ class Interpreter:
         if self.current_token.kind in expected_tokens_kinds:
             self.current_token = self.get_next_token()
         else:
-            raise Exception("Unexpected token")
+            raise ValueError("Unexpected token")
 
     def expr(self):
         self.current_token = self.get_next_token()
