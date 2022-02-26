@@ -100,33 +100,38 @@ class Interpreter:
             return 'NO'
 
 
-interpreter = Interpreter("()[]{}")
+def test_interpreter_walk():
+    interpreter = Interpreter("()[]{}")
 
-assert(interpreter.current_char == '(')
-assert(interpreter.get_next_token().kind == L_PAREN)
-assert(interpreter.current_char == ')')
-assert(interpreter.get_next_token().kind == R_PAREN)
+    assert(interpreter.current_char == '(')
+    assert(interpreter.get_next_token().kind == L_PAREN)
+    assert(interpreter.current_char == ')')
+    assert(interpreter.get_next_token().kind == R_PAREN)
 
-assert(interpreter.current_char == '[')
-assert(interpreter.get_next_token().kind == L_SQUARE)
-assert(interpreter.current_char == ']')
-assert(interpreter.get_next_token().kind == R_SQUARE)
+    assert(interpreter.current_char == '[')
+    assert(interpreter.get_next_token().kind == L_SQUARE)
+    assert(interpreter.current_char == ']')
+    assert(interpreter.get_next_token().kind == R_SQUARE)
 
-assert(interpreter.current_char == '{')
-assert(interpreter.get_next_token().kind == L_CURLY)
-assert(interpreter.current_char == '}')
-assert(interpreter.get_next_token().kind == R_CURLY)
+    assert(interpreter.current_char == '{')
+    assert(interpreter.get_next_token().kind == L_CURLY)
+    assert(interpreter.current_char == '}')
+    assert(interpreter.get_next_token().kind == R_CURLY)
 
-assert(interpreter.current_char is None)
-assert(interpreter.get_next_token().kind == EOF)
-
-
-interpreter = Interpreter("()[]{}")
-assert(interpreter.expr() == 'YES')
-
-interpreter = Interpreter("(([({{")
-assert(interpreter.expr() == 'NO')
+    assert(interpreter.current_char is None)
+    assert(interpreter.get_next_token().kind == EOF)
 
 
-interpreter = Interpreter("{[()]}")
-assert(interpreter.expr() == 'YES')
+def test_interpreter_pairs():
+    interpreter = Interpreter("()[]{}")
+    assert(interpreter.expr() == 'YES')
+
+
+def test_interpreter_no_pairs():
+    interpreter = Interpreter("(([({{")
+    assert(interpreter.expr() == 'NO')
+
+
+def test_interpreter_concentric_pairs():
+    interpreter = Interpreter("{[()]}")
+    assert(interpreter.expr() == 'YES')
