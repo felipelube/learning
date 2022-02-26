@@ -28,7 +28,7 @@ class Interpreter:
         self.text = text
 
         self.pos = 0
-        self.token: Optional[Token] = None
+        self.current_token: Optional[Token] = None
 
     @property
     def current_char(self) -> Optional[str]:
