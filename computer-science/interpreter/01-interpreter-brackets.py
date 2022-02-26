@@ -47,7 +47,7 @@ class Interpreter:
         try:
             if self.current_char is None:
                 raise
-            kind = TOKEN_KIND_FOR_SYMBOL.get(self.current_char)
+            kind = TOKEN_KIND_FOR_SYMBOL[self.current_char]
             self.advance()
             return Token(kind)
         except KeyError:
