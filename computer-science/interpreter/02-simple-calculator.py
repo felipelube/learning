@@ -3,7 +3,7 @@
 # Token types
 # EOF (end-of-file) token is used to indicate that
 # there is no more input left for lexical analysis
-INTEGER, PLUS, TIMES, MINUS,  EOF = 'INTEGER', 'PLUS', 'TIMES', 'MINUS', 'EOF'
+INTEGER, PLUS, TIMES, DIVISION, MINUS,  EOF = 'INTEGER', 'PLUS', 'TIMES', 'DIVISION', 'MINUS', 'EOF'
 
 
 class Token(object):
@@ -89,6 +89,10 @@ class Interpreter(object):
                 self.advance()
                 return Token(TIMES, '*')
 
+            if self.current_char == '/':
+                self.advance()
+                return Token(DIVISION, '/')
+
             self.error()
 
         return Token(EOF, None)
@@ -124,6 +128,8 @@ class Interpreter(object):
             self.eat(MINUS)
         elif op.type == TIMES:
             self.eat(TIMES)
+        else:
+            self.eat(DIVISION)
 
         # we expect the current token to be an integer
         right = self.current_token
@@ -142,6 +148,8 @@ class Interpreter(object):
             result = left.value - right.value
         elif op.type == TIMES:
             result = left.value * right.value
+        else:
+            result = left.value / right.value
         return result
 
 
