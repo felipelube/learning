@@ -1,11 +1,9 @@
 from typing import List
+from functools import reduce
 
 
 def find_only_odd(lyst: List[int]):
-    res = 0
-    for item in lyst:
-        res = item ^ res
-    return res
+    return reduce(lambda x, y: x ^ y, lyst, 0)
 
 
 assert find_only_odd([10, 30, 30, 10, 30, 30, 20]) == 20
