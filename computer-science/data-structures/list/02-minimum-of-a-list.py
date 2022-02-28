@@ -2,7 +2,7 @@ from typing import List
 
 
 def list_minimums(lyst: List[int], x: int):
-    return list(filter(lambda i: i < x, lyst))
+    return [n for n in lyst if n < x]
 
 
 assert list_minimums([8, 100, 20, 40, 3, 7], 10) == [8, 3, 7]
