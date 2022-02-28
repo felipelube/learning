@@ -3,13 +3,14 @@
 # based on https://www.hackerrank.com/challenges/contacts/editorial
 
 from functools import reduce
+from typing import Dict
 
 
 class Node:
     def __init__(self) -> None:
         self.end = False
         self.count = 0
-        self.children = {}
+        self.children: Dict[str, Node] = {}
 
 
 class ContactList:
@@ -20,14 +21,14 @@ class ContactList:
         if not name:
             return
 
-        current_node = self.root
+        current_node: Node = self.root
         for letter in name:
             if not letter in current_node.children:
                 current_node.children[letter] = Node()
             current_node = current_node.children[letter]
             current_node.count += 1
 
-    def find(self, prefix):
+    def find(self, prefix: str):
         if not prefix:
             return 0
 
