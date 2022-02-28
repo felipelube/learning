@@ -1,6 +1,14 @@
+# solution for the 'contacts' problem
+# @see: https://www.hackerrank.com/challenges/contacts/problem
+# based on https://www.hackerrank.com/challenges/contacts/editorial
+
+from functools import reduce
+
+
 class Node:
     def __init__(self) -> None:
         self.end = False
+        self.count = 0
         self.children = {}
 
 
@@ -17,8 +25,24 @@ class ContactList:
             if not letter in current_node.children:
                 current_node.children[letter] = Node()
             current_node = current_node.children[letter]
+            current_node.count += 1
 
-        current_node.end = True
+    def find(self, prefix):
+        if not prefix:
+            return 0
+
+        current_node = self.root
+
+        current_node = reduce(
+            lambda current_node, letter: current_node and current_node.children.get(letter), prefix, current_node)
+
+        if current_node is None:
+            # there is no path that encodes this whole prefix
+            return 0
+        else:
+            # the number of nodes bellow this node is the time it was traversed
+            # **considering that there is no repeated "add" operations**
+            return current_node.count
 
 
 contact_list = ContactList()
@@ -27,4 +51,6 @@ contact_list.add("eddie")
 contact_list.add("eddie")
 contact_list.add("edward")
 contact_list.add("edwina")
-pass
+
+assert(contact_list.find("ed") == 5)
+assert(contact_list.find("ew") == 0)
